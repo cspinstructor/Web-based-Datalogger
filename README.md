@@ -1,7 +1,8 @@
 # Web-based-Datalogger
 A sample project in Interactive Pervasive Computing
-There are 3 types of files in this project:
 
+There are 3 types of files in this project:
+   
 Arduino Source Code
 ```````````````````
 The .ino files are Arduino source code files. Use your Arduino IDE to open it.
