@@ -25,4 +25,5 @@ NOTE:
 For the Arduino soucecode *.ino files, you will need to include libraries:
 
 DHT Sensor Library
+
 Adafruit Unified Sensor
