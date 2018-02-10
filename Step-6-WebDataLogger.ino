@@ -1,16 +1,17 @@
 
 /******************************************/
-//#include <DHT.h>
+#include <DHT.h>
 #include <Ethernet.h>
+
 // variables declaration
 /*--------LDR sensor-------------------------*/
 const int ldrPin = A0;
 String ldrLast="";
 String ldrCurrent="";
-/*--------Temperature sensor-------------------------*/
-const int tempPin = A1;
-//DHT dht(dhtPin, DHT11);          // initialize the DHT sensor
-const long timeInterval=60000;   // the time in miliseconds between reading the DHT sensor  
+/*--------DHT sensor-------------------------*/
+const byte dhtPin=2;
+DHT dht(dhtPin, DHT11);          // initialize the DHT sensor
+const long timeInterval=15000;   // the time in miliseconds between reading the DHT sensor  
 unsigned long previousTime = 0; 
 unsigned long currentTime = 0;
 /*--------Ultrasonic sensor------------------*/
@@ -44,9 +45,9 @@ void setup()
   digitalWrite(eventLEDPin, HIGH);   
   digitalWrite(httpLEDPin, HIGH);
   digitalWrite(errorLEDPin, HIGH);
-/*----start the Temperature sensor---------*/
-  //dht.begin();
-  delay(2000);                     // let the DHT sensor some starting time 
+/*----start the DHT sensor---------*/
+  dht.begin();
+  delay(10000);                     // let the DHT sensor some starting time 
   digitalWrite(eventLEDPin, LOW);
   digitalWrite(httpLEDPin, LOW);
   digitalWrite(errorLEDPin, LOW);
@@ -68,7 +69,7 @@ void loop()
 {
 /*------check every sensor in endless loop---------*/  
   checkLDR();            
-  checkTemp(); 
+  checkDHT(); 
   checkUltrasonic();
 /*-----delay between the sensors reading-----------*/
   delay(400);      
@@ -138,7 +139,7 @@ void checkUltrasonic()
   else if (distance>thresholdDistance) newThreshold=true;
 }
 /******************************************/
-void checkTemp()
+void checkDHT()
 {
   float t,h;
   currentTime = millis();
@@ -146,7 +147,8 @@ void checkTemp()
   if(currentTime - previousTime > timeInterval) {     
     previousTime = currentTime;
     digitalWrite(eventLEDPin,HIGH); 
-    t = (5.0 * analogRead(tempPin) * 100.0) / 1024 - 10; //-10 offset correction
+    t = dht.readTemperature();
+    h = dht.readHumidity(); 
 /*---for debuging-----------------------*/
     Serial.print("Temperature: ");
     Serial.print(t);
