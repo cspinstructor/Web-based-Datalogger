@@ -19,3 +19,8 @@ and some sensor parameters.
 
 The arduio.sql file is the database. You may import it into your MAMP's SQL Server.
 It contains 3 tables used to store data from Arduino.
+
+NOTE:
+For the Arduino soucecode *.ino files, you will need to include libraries:
+DHT Sensor Library
+Adafruit Unified Sensor
